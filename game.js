@@ -12,9 +12,34 @@ ctx.scale(block_size, block_size);
 let board = new Board();
 
 function play() {
-    board = getEmptyBoard();
-    let piece = new Piece(ctx);
-    piece.draw();
-    
-    board.piece = piece;
+  board = board.getEmptyBoard();
+  let block = new Block(ctx);
+  block.draw();
+
+  board.block = block;
+}
+
+moves = {
+  [KEY.LEFT]: p => ({ ...p, x: p.x - 1 }),
+  [KEY.RIGHT]: p => ({ ...p, x: p.x + 1 }),
+  [KEY.UP]: p => ({ ...p, y: p.y + 1 })
+};
+
+const KEY = {  
+  SPACE: 32,
+  // ...
+}
+
+moves = {  
+  [KEY.SPACE]: p => ({ ...p, y: p.y + 1 })
+  // ...
+};
+
+// In EventListener
+if (event.keyCode === KEY.SPACE) {
+  // Hard drop
+  while (board.valid(p)) {
+    board.piece.move(p);   
+    p = moves[KEY.DOWN](board.piece);
   }
+}
